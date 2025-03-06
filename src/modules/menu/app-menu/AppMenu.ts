@@ -55,6 +55,6 @@ export class AppMenu implements Module {
     getHelpMenuGroup(): MenuGroup {
         const docItem = new MenuItem({ displayName: 'Documentation', onclick: () => console.log('Help -> Documentation pressed') });
         const aboutItem = new MenuItem({ displayName: 'About', onclick: () => console.log('Help -> About pressed') });
-        return new MenuGroup({ displayName: 'Edit', children: [docItem, aboutItem] });
+        return new MenuGroup({ displayName: 'Help', children: [docItem, aboutItem] });
     }
 }
