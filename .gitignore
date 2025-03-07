@@ -26,3 +26,4 @@ dist-ssr
 # not commiting the env file
 .env
 .package-lock.json
+.vs
