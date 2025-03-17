@@ -19,6 +19,12 @@ export class DFASimulator {
     // @ts-ignore
     protected currentTimeout: NodeJS.Timeout;
 
+    // New variables for step-by-step module
+
+    protected stepByStepInput: string = '';
+    protected currentIndex: number = 0;
+    protected stepByStepActive: boolean = false;
+
     /**
      * The constructor receives the Automata instance
      */
@@ -120,6 +126,86 @@ export class DFASimulator {
         this.model.currentState = this.model.states.indexOf(this.model.getInitialState());
         // updating colors
         this.resetNodesColors();
+    };
+
+    /**
+ * Executes the simulation in a step-by-step manner.
+ * Each invocation processes a single character from `stepByStepInput`.
+ */
+    onPlayStepByStepSimulation = async () => {
+        // Check if the "Step By Step" mode is being initiated or if it hasn't been activated yet.
+        if (!this.stepByStepActive) {
+            this.stepByStepActive = true;
+
+            // Retrieve the input from the UI.
+            this.stepByStepInput = this.mainView!.getTestInput();
+            if (!this.stepByStepInput || this.stepByStepInput.length === 0) {
+                alert('Please type the input for the DFA in the top left box.');
+                return;
+            }
+
+            // Clear the console.
+            this.mainView?.clearLog();
+
+            // Log the start of the simulation.
+            this.mainView?.logMessage(
+                'Starting step-by-step simulation for the following input: ' + this.stepByStepInput,
+                'success'
+            );
+
+            // Reset the DFA to its initial state.
+            this.model.currentState = this.model.states.indexOf(this.model.getInitialState());
+
+            // Highlight the initial state.
+            this.highlightStateAndEdge(this.model.getInitialState());
+
+            // Initialize the processing index to 0.
+            this.currentIndex = 0;
+        }
+
+        // If the entire input has already been processed, no further action is taken.
+        if (this.currentIndex >= this.stepByStepInput.length) {
+            this.mainView?.logMessage('No more input to process.', '');
+            return;
+        }
+
+        // Process the current character from the input.
+        const currentChar = this.stepByStepInput[this.currentIndex];
+        this.mainView?.logMessage('Processing input character: ' + currentChar);
+
+        // Perform the DFA transition for the current character.
+        const nextState = await this.transitionFunction(currentChar);
+
+        // A nextState value of -1 indicates that no valid transition exists.
+        if (nextState === -1) {
+            this.network?.updateClusteredNode(
+                this.model.states[this.model.currentState].name,
+                { color: 'palevioletred' }
+            );
+            this.mainView?.logMessage('Input rejected: ' + this.stepByStepInput, 'error');
+
+            // Deactivate step-by-step mode.
+            this.stepByStepActive = false;
+            return;
+        }
+
+        // Update the current state and highlight it.
+        this.model.currentState = nextState;
+        this.highlightStateAndEdge(this.model.states[this.model.currentState]);
+
+        // Increment the index as the current character has been processed.
+        this.currentIndex++;
+
+        // When the end of the input is reached, determine if it is accepted or rejected.
+        if (this.currentIndex === this.stepByStepInput.length) {
+            if (this.model.states[this.model.currentState].final) {
+                this.mainView?.logMessage('Input accepted: ' + this.stepByStepInput, 'success');
+            } else {
+                this.mainView?.logMessage('Input rejected: ' + this.stepByStepInput, 'error');
+            }
+            // Mark the end of the step-by-step simulation.
+            this.stepByStepActive = false;
+        }
     };
 
     /**
