@@ -31,4 +31,11 @@ export class MenuItem extends CustomElement<MenuItemProps> {
     template(): string {
         return html`${this.props.displayName}`;
     }
+
+    /**
+     * Returns true if the current item matches the given name
+     */
+    hasName(name: string): boolean {
+        return this.props.displayName === name;
+    }
 }

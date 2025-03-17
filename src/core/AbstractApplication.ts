@@ -62,6 +62,13 @@ export class AbstractApplication implements Application {
     }
 
     /**
+     * Returns access to the current simulating automata if exists otherwise null
+     */
+    getRunningAutomata(): Automata | null {
+        return this.activeAutomata;
+    }
+
+    /**
      * Emptying the body content but keeping the drawer menu
      */
     protected clearBodyContent() {

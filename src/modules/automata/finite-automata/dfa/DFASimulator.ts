@@ -31,6 +31,13 @@ export class DFASimulator {
     constructor(protected automata: DFAAutomata) {}
 
     /**
+     * Returns access to the DFA Model
+     */
+    getCurrentModel(): DFAModel {
+        return this.model;
+    }
+
+    /**
      * Entry point for starting the simulation
      */
     start(mainView: DFAMainView) {

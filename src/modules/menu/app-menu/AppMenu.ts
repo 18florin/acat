@@ -13,6 +13,9 @@ export class AppMenu implements Module {
     // references the application
     protected app: Application | null = null;
 
+    // holds the list of menu groups
+    protected menuGroups: Map<string, MenuGroup> = new Map();
+
     /**
      * Initializes the current module
      */
@@ -34,27 +37,39 @@ export class AppMenu implements Module {
      * Returns the list of items for the file menu group
      */
     getFileMenuGroup(): MenuGroup {
-        const saveItem = new MenuItem({ displayName: 'Save', onclick: () => console.log('File -> Save pressed') });
-        const loadItem = new MenuItem({ displayName: 'Load', onclick: () => console.log('File -> Load pressed') });
-        const exportItem = new MenuItem({ displayName: 'Export', onclick: () => console.log('File -> Export pressed') });
+        if (!this.menuGroups.has('file-menu')) {
+            const saveItem = new MenuItem({ displayName: 'Save', onclick: () => console.log('File -> Save pressed') });
+            const loadItem = new MenuItem({ displayName: 'Load', onclick: () => console.log('File -> Load pressed') });
+            const exportItem = new MenuItem({ displayName: 'Export', onclick: () => console.log('File -> Export pressed') });
 
-        return new MenuGroup({ displayName: 'File', children: [saveItem, loadItem, exportItem] });
+            this.menuGroups.set('file-menu', new MenuGroup({ displayName: 'File', children: [saveItem, loadItem, exportItem] }));
+        }
+
+        return this.menuGroups.get('file-menu')!;
     }
 
     /**
      * Returns the list of items for the file menu group
      */
     getEditMenuGroup(): MenuGroup {
-        const prefItem = new MenuItem({ displayName: 'Preferences', onclick: () => console.log('Edit -> Preferences pressed') });
-        return new MenuGroup({ displayName: 'Edit', children: [prefItem] });
+        if (!this.menuGroups.has('edit-menu')) {
+            const prefItem = new MenuItem({ displayName: 'Preferences', onclick: () => console.log('Edit -> Preferences pressed') });
+            this.menuGroups.set('edit-menu', new MenuGroup({ displayName: 'Edit', children: [prefItem] }));
+        }
+
+        return this.menuGroups.get('edit-menu')!;
     }
 
     /**
      * Returns the list of items for the file menu group
      */
     getHelpMenuGroup(): MenuGroup {
-        const docItem = new MenuItem({ displayName: 'Documentation', onclick: () => console.log('Help -> Documentation pressed') });
-        const aboutItem = new MenuItem({ displayName: 'About', onclick: () => console.log('Help -> About pressed') });
-        return new MenuGroup({ displayName: 'Help', children: [docItem, aboutItem] });
+        if (!this.menuGroups.has('help-menu')) {
+            const docItem = new MenuItem({ displayName: 'Documentation', onclick: () => console.log('Help -> Documentation pressed') });
+            const aboutItem = new MenuItem({ displayName: 'About', onclick: () => console.log('Help -> About pressed') });
+            this.menuGroups.set('help-menu', new MenuGroup({ displayName: 'Help', children: [docItem, aboutItem] }));
+        }
+
+        return this.menuGroups.get('help-menu')!;
     }
 }
