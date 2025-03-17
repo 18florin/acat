@@ -35,7 +35,9 @@ export class DFAAutomata implements Automata {
      * Returning the current configuration for the user to later save it
      */
     getConfiguration(): Record<string, any> {
-        return {};
+        const model = this.simulator.getCurrentModel();
+        const { symbols, transitions, states } = model;
+        return { symbols, transitions, states };
     }
 
     /**
