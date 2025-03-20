@@ -36,7 +36,7 @@ body {
   height: 100%;
 
   // making all custom elements inside body as display flex
-  *:defined:not(style):not(link):not(script):not(:where(div, span, p, hr)) {
+  *:defined:not(style):not(link):not(script):not(:where(div, span, p, hr, button, input, textarea, select)) {
     display: flex;
     box-sizing: border-box;
   }
