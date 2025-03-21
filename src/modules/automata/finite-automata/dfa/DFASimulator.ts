@@ -25,6 +25,13 @@ export class DFASimulator {
     constructor(protected automata: DFAAutomata) {}
 
     /**
+     * Returns access to the DFA Model
+     */
+    getCurrentModel(): DFAModel {
+        return this.model;
+    }
+
+    /**
      * Entry point for starting the simulation
      */
     start(mainView: DFAMainView) {
@@ -36,7 +43,7 @@ export class DFASimulator {
         // creating the network of states
         const [nodes, edges] = [this.getNodes(), this.getEdges()];
         // setting up some display options for how to render the network
-        const options = { physics: false, edges: { font: { align: 'top' } } };
+        const options = { physics: true, edges: { font: { align: 'top' } } };
         // instantiating the network of states
         this.network = new Network(mainView.getNetworkContainer(), { nodes, edges }, options);
 
@@ -145,23 +152,18 @@ export class DFASimulator {
      * Invoked when a new edge has been added
      */
     protected edgeAdded = (edgeData: Edge, callback: (edge: Edge) => void) => {
-        // Accepting the new edge only if forwards to a new state
-        if (edgeData.from !== edgeData.to) {
-            // requesting the character that will validate next state
-            const character = prompt('Enter the transition character:');
-            if (!character) {
-                alert('Aborting because no character was inserted');
-                return;
-            }
-
-            // @ts-ignore
-            this.model.transitions.push({ from: edgeData.from, to: edgeData.to, character });
-
-            edgeData.label = character;
-            callback(edgeData);
-        } else {
-            alert('Self-loops are not allowed!');
+        // requesting the character that will validate next state
+        const character = prompt('Enter the transition character:');
+        if (!character) {
+            alert('Aborting because no character was inserted');
+            return;
         }
+
+        // @ts-ignore
+        this.model.transitions.push({ from: edgeData.from, to: edgeData.to, character });
+
+        edgeData.label = character;
+        callback(edgeData);
     };
 
     /**
