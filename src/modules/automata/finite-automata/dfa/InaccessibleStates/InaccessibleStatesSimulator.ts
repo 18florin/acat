@@ -63,10 +63,39 @@ export class InaccessibleStatesSimulator {
      */
     protected removeInaccessibleStates() {
         const accessibleStates = this.getAccessibleStates();
+        const removedStates: string[] = [];
+        const removedTransitions: { from: string, to: string, character: string }[] = [];
+    
+        this.model.states.forEach(state => {
+            if (!accessibleStates.includes(state.name)) {
+                removedStates.push(state.name);
+            }
+        });
+    
+        this.model.transitions.forEach(transition => {
+            if (!accessibleStates.includes(transition.from) || !accessibleStates.includes(transition.to)) {
+                removedTransitions.push(transition);
+            }
+        });
+    
         this.model.states = this.model.states.filter(state => accessibleStates.includes(state.name));
         this.model.transitions = this.model.transitions.filter(transition =>
             accessibleStates.includes(transition.from) && accessibleStates.includes(transition.to)
         );
+
+        if (removedStates.length > 0) {
+            this.logMessage(`Inaccessible states: ${removedStates.join(', ')}`);
+        }
+        if (removedTransitions.length > 0) {
+            const transitionsStr = removedTransitions.map(t => `${t.from} -> ${t.to} (${t.character})`).join(', ');
+            this.logMessage(`Inaccessible transitions: ${transitionsStr}`);
+        }
+    }
+
+    protected logMessage(message: string) {
+        if (this.mainView) {
+            this.mainView.logMessage(message);
+        }
     }
 
     /**
@@ -168,7 +197,7 @@ export class InaccessibleStatesSimulator {
         }
         return this.mainView;
     }
-    
+
      /**
      * Returns a list of accessible state names.
      */
