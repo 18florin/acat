@@ -87,12 +87,9 @@ export class AbstractApplication implements Application {
      * Saves the current simulation state to local storage.
      */
     saveSimulation(): void {
-        if (!this.activeAutomata) {
-            return;
-        }
-
+       
         // Get the configuration from the current automata
-        const configuration = this.activeAutomata.getConfiguration();
+        const configuration = this.activeAutomata?.getConfiguration();
 
         // Prompt the user for a simulation name
         const simulationName = prompt("Enter a name for your simulation:");
