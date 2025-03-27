@@ -34,6 +34,8 @@ export class DFASimulation extends AbstractFiniteSimulation {
     simulate(): void {
         // hiding the module before proceeding with the automation
         this.app?.getModule(ModuleNames.HamburgerMenu)?.onToggleMenu();
+        // enable the "Save" button
+        this.app?.getModule(ModuleNames.AppMenu)?.getFileMenuGroup()?.getMenuItemByName('Save')?.setEnabled(true);
         // calling the simulation on application instance
         this.app?.simulateAutomata(new DFAAutomata());
     }

@@ -82,4 +82,24 @@ export class AbstractApplication implements Application {
             body.children[i].remove();
         }
     }
+
+    /**
+     * Saves the current simulation state to local storage.
+     */
+    saveSimulation(): void {
+       
+        // Get the configuration from the current automata
+        const configuration = this.activeAutomata?.getConfiguration();
+
+        // Prompt the user for a simulation name
+        const simulationName = prompt("Enter a name for your simulation:");
+        if (!simulationName) return; // User canceled
+
+        // Save the configuration to local storage
+        const storageKey = `automata|${simulationName}|.`;
+        localStorage.setItem(storageKey, JSON.stringify(configuration));
+        alert("Simulation saved successfully!");
+    }
+
+
 }

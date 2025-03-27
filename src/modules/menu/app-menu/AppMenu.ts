@@ -38,7 +38,7 @@ export class AppMenu implements Module {
      */
     getFileMenuGroup(): MenuGroup {
         if (!this.menuGroups.has('file-menu')) {
-            const saveItem = new MenuItem({ displayName: 'Save', onclick: () => console.log('File -> Save pressed') });
+            const saveItem = new MenuItem({ displayName: 'Save', onclick: () => {if (this.app) {this.app.saveSimulation();}}, disabled: true});
             const loadItem = new MenuItem({ displayName: 'Load', onclick: () => console.log('File -> Load pressed') });
             const exportItem = new MenuItem({ displayName: 'Export', onclick: () => console.log('File -> Export pressed') });
 

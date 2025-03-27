@@ -33,4 +33,9 @@ export interface Application {
      * Returns access to the current simulation
      */
     getRunningAutomata(): Automata | null;
+
+    /**
+     * Saves the current simulation state to local storage.
+     */
+    saveSimulation() : void;
 }
