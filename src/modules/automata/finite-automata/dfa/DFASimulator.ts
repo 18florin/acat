@@ -78,9 +78,13 @@ export class DFASimulator {
      * Invoked when the user clicks the play button for the simulation
      */
     onPlaySimulation = () => {
+        // resetting the simulation before the start
+        this.resetSimulation();
+
         const input = this.mainView!.getTestInput();
         if (input.length === 0) {
             alert('Please type the input for the DFA in the top left box.');
+            return;
         }
 
         // clearing the output console
@@ -94,14 +98,16 @@ export class DFASimulator {
 
         // letting the first state shine for a second
         this.currentTimeout = setTimeout(async () => {
+            let nextState = this.model.currentState;
+
             // processing the input character by character to see if we reach the final state
             for (let i = 0, len = input.length; i < len; i++) {
                 const currentChar = input[i];
 
                 this.mainView?.logMessage('Processing input character: ' + currentChar);
-                const nextState = await this.transitionFunction(currentChar);
+                nextState = await this.transitionFunction(currentChar);
 
-                // it found no state to move forward
+                // if the next state is not valid, highlighting the current node to know where the automata stopped
                 if (nextState === -1) {
                     this.network?.updateClusteredNode(this.model.states[this.model.currentState].name, { color: 'palevioletred' });
                     break;
@@ -111,15 +117,13 @@ export class DFASimulator {
             }
 
             // checking if we reached the final state
-            if (this.model.states[this.model.currentState].final) {
+            if (nextState !== -1 && this.model.states[this.model.currentState].final) {
+                this.network?.updateClusteredNode(this.model.states[this.model.currentState].name, { color: 'yellow' });
                 // letting the user know that the input sequence was successfully received
                 this.mainView?.logMessage('Input accepted: ' + input, 'success');
             } else {
                 this.mainView?.logMessage('Input rejected:' + input, 'error');
             }
-
-            // resetting state after one second
-            this.currentTimeout = setTimeout(() => this.onPauseSimulation(), 1000);
         }, 1000);
     };
 
@@ -127,18 +131,25 @@ export class DFASimulator {
      * Invoked when the user pauses the simulation
      */
     onPauseSimulation = () => {
+        this.resetSimulation();
+    };
+
+    /**
+     * Resets the current simulation and sets the current state to the initial state
+     */
+    resetSimulation() {
         // stopping the next timeout function if exists
         clearTimeout(this.currentTimeout);
         // resetting the state to the initial value
         this.model.currentState = this.model.states.indexOf(this.model.getInitialState());
         // updating colors
         this.resetNodesColors();
-    };
+    }
 
     /**
- * Executes the simulation in a step-by-step manner.
- * Each invocation processes a single character from `stepByStepInput`.
- */
+     * Executes the simulation in a step-by-step manner.
+     * Each invocation processes a single character from `stepByStepInput`.
+     */
     onPlayStepByStepSimulation = async () => {
         // Check if the "Step By Step" mode is being initiated or if it hasn't been activated yet.
         if (!this.stepByStepActive) {
@@ -155,10 +166,7 @@ export class DFASimulator {
             this.mainView?.clearLog();
 
             // Log the start of the simulation.
-            this.mainView?.logMessage(
-                'Starting step-by-step simulation for the following input: ' + this.stepByStepInput,
-                'success'
-            );
+            this.mainView?.logMessage('Starting step-by-step simulation for the following input: ' + this.stepByStepInput, 'success');
 
             // Reset the DFA to its initial state.
             this.model.currentState = this.model.states.indexOf(this.model.getInitialState());
@@ -185,10 +193,7 @@ export class DFASimulator {
 
         // A nextState value of -1 indicates that no valid transition exists.
         if (nextState === -1) {
-            this.network?.updateClusteredNode(
-                this.model.states[this.model.currentState].name,
-                { color: 'palevioletred' }
-            );
+            this.network?.updateClusteredNode(this.model.states[this.model.currentState].name, { color: 'palevioletred' });
             this.mainView?.logMessage('Input rejected: ' + this.stepByStepInput, 'error');
 
             // Deactivate step-by-step mode.
@@ -272,14 +277,21 @@ export class DFASimulator {
 
             const currentState = this.model.getCurrentState();
             for (let i = 0, len = this.model.transitions.length; i < len; i++) {
+                // getting the current iteration transition
                 const transition = this.model.transitions[i];
-                const possibleState = this.model.states[this.model.currentState];
+
+                // skipping transitions that don't start from the current instance
+                if (currentState.name !== transition.from) continue;
+
+                // searching for the next possible state
+                const nextStateCandidate = this.model.states.filter(s => s.name === transition.to && transition.character === char)[0];
+
                 // checking if this edge starts from current state and leads to a new state when reading the input character
-                if (currentState.name === transition.from && transition.character === char) {
+                if (nextStateCandidate) {
                     // if we have a valid state we update the network for highlighting it
                     const next = this.model.getStateByName(transition.to);
                     nextState = next !== null ? this.model.states.indexOf(next) : -1;
-                    this.highlightStateAndEdge(possibleState);
+                    this.highlightStateAndEdge(nextStateCandidate);
                     break;
                 }
             }
