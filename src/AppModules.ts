@@ -15,7 +15,7 @@ export const ModuleNames = {
     AppLogo: 'app-logo',
     ContextMenu: 'context-menu',
     DeterministicFiniteAutomata: 'automata-dfa',
-    Theme: "theme-button"
+    Theme: 'theme-button',
     OptimizingInaccessibleStatesSimulation: 'optimized-inaccessible-dfa',
 } as const;
 
@@ -28,7 +28,7 @@ export const AppModules = {
     [ModuleNames.AppMenu]: AppMenu,
     [ModuleNames.ContextMenu]: ContextMenu,
     [ModuleNames.DeterministicFiniteAutomata]: DFASimulation,
-    [ModuleNames.Theme]: Theme
+    [ModuleNames.Theme]: Theme,
     [ModuleNames.OptimizingInaccessibleStatesSimulation]: OptimizingInaccessibleStatesSimulation, // Adăugăm noua simulare
 } as const;
 

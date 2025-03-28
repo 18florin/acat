@@ -29,9 +29,6 @@ export class DFAAutomata implements Automata {
     constructor() {
         // creating the context menu toolbar for the DFA simulation
         this.toolbar = new DefaultToolbar({
-            buttons: [new PlayButton(this.simulator.onPlaySimulation), new PauseButton(this.simulator.onPauseSimulation),
-                new PlayStepByStepButton(this.simulator.onPlayStepByStepSimulation), new RefreshButton(this.onRefreshSimulation),
-               ],
             buttons: [
                 new PlayButton(this.simulator.onPlaySimulation),
                 new PauseButton(this.simulator.onPauseSimulation),
