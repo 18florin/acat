@@ -4,6 +4,8 @@ import { HamburgerMenu } from './modules/menu/hamburger-menu/HamburgerMenu.ts';
 import { AppLogo } from './modules/menu/app-logo/AppLogo.ts';
 import { DFASimulation } from './modules/automata/finite-automata/DFASimulation.ts';
 import { Theme } from './modules/theme/theme.ts';
+import { OptimizingInaccessibleStatesSimulation } from './modules/automata/finite-automata/dfa/InaccessibleStates/OptimizingInaccessibleStatesSimulation.ts'; // Importăm noua simulare
+
 /**
  * Constant that hold the names of the modules
  */
@@ -14,6 +16,7 @@ export const ModuleNames = {
     ContextMenu: 'context-menu',
     DeterministicFiniteAutomata: 'automata-dfa',
     Theme: "theme-button"
+    OptimizingInaccessibleStatesSimulation: 'optimized-inaccessible-dfa',
 } as const;
 
 /**
@@ -26,6 +29,7 @@ export const AppModules = {
     [ModuleNames.ContextMenu]: ContextMenu,
     [ModuleNames.DeterministicFiniteAutomata]: DFASimulation,
     [ModuleNames.Theme]: Theme
+    [ModuleNames.OptimizingInaccessibleStatesSimulation]: OptimizingInaccessibleStatesSimulation, // Adăugăm noua simulare
 } as const;
 
 /**
