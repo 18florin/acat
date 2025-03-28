@@ -1,5 +1,6 @@
 import { CustomElement } from '../../../../core/CustomElement.ts';
 import { html } from '../../../../helpers/dom.ts';
+import './drawer-item.less';
 
 /**
  * The drawer item props
