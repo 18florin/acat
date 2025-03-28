@@ -1,9 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
 
 :root {
-    --body-background: #ffffff;
+    --body-background: #fff;
     --nav-background: #fff;
-    --hover-buttons: #eee;
+    --hover-buttons: #ddd;
+    --selected-button: #eee;
     --font-color: #000;
     --menu-shadow: 0 8px 11px -6px rgba(0, 0, 0, 0.12);
     --drawer-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.12);
@@ -11,7 +12,6 @@
     --active-opacity: .6;
     --body-font: normal 400 14px "Roboto", sans-serif;
     --category-font: normal 600 16px "Roboto", sans-serif;
-    --canvas-background: #fff;
     --input-background: #fff;
     --textarea-background: #fff;
     --text-color: #000;
@@ -21,14 +21,14 @@
     --body-background: #515151;
     --nav-background: #3C3C3C;
     --hover-buttons: gray;
+    --selected-button: #999;
     --font-color: #fff;
-    --menu-shadow: 0 8px 11px -6px rgba(255, 255, 255, 0.12);
-    --drawer-shadow: 4px 8px 8px 0 rgba(255, 255, 255, 0.12);
+    --menu-shadow: 0 8px 11px -6px rgba(0, 0, 0, 0.3);
+    --drawer-shadow: 4px 8px 8px 0 rgba(0, 0, 0, 0.2);
     --sepparator: solid 1px #000;
     --active-opacity: .6;
     --body-font: normal 400 14px "Roboto", sans-serif;
     --category-font: normal 600 16px "Roboto", sans-serif;
-    --canvas-background: #777777;
     --input-background: #777777;
     --textarea-background: #777777;
     --text-color: #fff;
@@ -93,16 +93,7 @@ body {
             position: relative;
             display: flex;
             flex: 1;
-            background-color: var(--body-background);
         }
-    }
-
-    canvas {
-        background-color: var(--canvas-background) ;
-    }
-
-    .log-entry {
-        background-color: var(--canvas-background) ;
     }
 
     textarea, input {

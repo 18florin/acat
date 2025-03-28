@@ -1,6 +1,5 @@
 import { CustomElement } from '../../../../core/CustomElement.ts';
 import { html } from '../../../../helpers/dom.ts';
-import './drawer-item.less';
 
 /**
  * The drawer item props
@@ -23,8 +22,9 @@ export class DrawerItem extends CustomElement<DrawerItemProps> {
      */
     constructor(props: DrawerItemProps) {
         super(props);
-        // attaching the click handler to this component
-        this.onclick = props.onclick;
+
+        // attaching the click handler
+        this.onclick = this.onClick;
     }
 
     /**
@@ -33,4 +33,19 @@ export class DrawerItem extends CustomElement<DrawerItemProps> {
     template(): string | null {
         return html`<div class="drawer-item">${this.props.displayName}</div>`;
     }
+
+    /**
+     * The click handler that removes the selected class from all siblings
+     * and adds the selected class on to this element
+     */
+    onClick = () => {
+        // removing the selected class from all drawer items
+        this.parentElement?.querySelectorAll(DrawerItem.element).forEach(e => e.classList.remove('selected'));
+
+        // marking this item as selected
+        this.classList.add('selected');
+
+        // invoking the click handler sent through props
+        this.props.onclick();
+    };
 }
