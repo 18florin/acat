@@ -3,7 +3,7 @@ import { ContextMenu } from './modules/menu/context-menu/ContextMenu.ts';
 import { HamburgerMenu } from './modules/menu/hamburger-menu/HamburgerMenu.ts';
 import { AppLogo } from './modules/menu/app-logo/AppLogo.ts';
 import { DFASimulation } from './modules/automata/finite-automata/DFASimulation.ts';
-
+import { Theme } from './modules/theme/theme.ts';
 /**
  * Constant that hold the names of the modules
  */
@@ -13,6 +13,7 @@ export const ModuleNames = {
     AppLogo: 'app-logo',
     ContextMenu: 'context-menu',
     DeterministicFiniteAutomata: 'automata-dfa',
+    Theme: "theme-button"
 } as const;
 
 /**
@@ -24,6 +25,7 @@ export const AppModules = {
     [ModuleNames.AppMenu]: AppMenu,
     [ModuleNames.ContextMenu]: ContextMenu,
     [ModuleNames.DeterministicFiniteAutomata]: DFASimulation,
+    [ModuleNames.Theme]: Theme
 } as const;
 
 /**

@@ -2,7 +2,6 @@ import { Network, DataSet, Node, Edge } from 'vis-network/standalone';
 import { DFAAutomata } from './DFAAutomata.ts';
 import { DFAMainView } from './views/DFAMainView.ts';
 import { DFAModel, State } from './DFAModel.ts';
-
 /**
  * Does the actual simulation of the Deterministic Finite Automata
  */
