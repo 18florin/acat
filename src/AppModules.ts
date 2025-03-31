@@ -5,6 +5,7 @@ import { AppLogo } from './modules/menu/app-logo/AppLogo.ts';
 import { DFASimulation } from './modules/automata/finite-automata/DFASimulation.ts';
 import { Theme } from './modules/theme/theme.ts';
 import { OptimizingInaccessibleStatesSimulation } from './modules/automata/finite-automata/dfa/InaccessibleStates/OptimizingInaccessibleStatesSimulation.ts'; // Importăm noua simulare
+import { SystemInteraction } from './modules/system-interaction/SystemInteraction.ts';
 
 /**
  * Constant that hold the names of the modules
@@ -17,6 +18,7 @@ export const ModuleNames = {
     DeterministicFiniteAutomata: 'automata-dfa',
     Theme: 'theme-button',
     OptimizingInaccessibleStatesSimulation: 'optimized-inaccessible-dfa',
+    SystemInteraction: 'system-interaction',
 } as const;
 
 /**
@@ -30,6 +32,8 @@ export const AppModules = {
     [ModuleNames.DeterministicFiniteAutomata]: DFASimulation,
     [ModuleNames.Theme]: Theme,
     [ModuleNames.OptimizingInaccessibleStatesSimulation]: OptimizingInaccessibleStatesSimulation, // Adăugăm noua simulare
+    [ModuleNames.SystemInteraction]: SystemInteraction,
+
 } as const;
 
 /**
